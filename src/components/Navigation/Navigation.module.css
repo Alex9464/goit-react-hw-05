@@ -1,0 +1,22 @@
+.nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #242424;
+    padding: 10px 0;
+  }
+  
+  .link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .link:hover {
+    color: #ff6347; /* Подсветка при наведении */
+  }
+  
+  .activeLink {
+    font-weight: bold;
+    border-bottom: 2px solid #ff6347;
+  }
+  
