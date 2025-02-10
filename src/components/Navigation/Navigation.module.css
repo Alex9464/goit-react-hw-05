@@ -12,7 +12,7 @@
   }
   
   .link:hover {
-    color: #ff6347; /* Подсветка при наведении */
+    color: #ff6347;
   }
   
   .activeLink {
