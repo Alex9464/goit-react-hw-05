@@ -1,4 +1,3 @@
-// import React from 'react';
 function NotFoundPage() {
     return (
       <div>
@@ -7,5 +6,5 @@ function NotFoundPage() {
     );
   }
   
-  export default NotFoundPage; // Экспортируем компонент как default
+  export default NotFoundPage;
   

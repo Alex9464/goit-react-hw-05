@@ -1,11 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import MovieCast from '../../components/MovieCast/MovieCast';
 import styles from './MovieDetailsPage.module.css';
 
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
+  const [showCast, setShowCast] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,7 +34,6 @@ function MovieDetailsPage() {
 
   return (
     <div className={styles.container}>
-      {}
       <div className={styles.info}>
         <button className={styles.backBtn} onClick={() => navigate(-1)}>
           <span>⬅ back</span>
@@ -41,11 +42,19 @@ function MovieDetailsPage() {
         <h1>{movie.title}</h1>
         <p>{movie.overview}</p>
         <p className={styles.info}><span className={styles.rating}>Rating:</span> {movie.vote_average.toFixed(1)}</p>
-<p className={styles.info}><span className={styles.release}>Release:</span> {movie.release_date}</p>
+        <p className={styles.info}><span className={styles.release}>Release:</span> {movie.release_date}</p>
+        <button 
+          className={styles.castBtn} 
+          onClick={() => setShowCast(prev => !prev)}
+        >
+          {showCast ? "Hide Cast" : "Show Cast"}
+        </button>
       </div>
 
-      {}
-      <img className={styles.poster} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
+      <div className={styles.castWrap}>
+        <img className={styles.poster} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
+        {showCast && <MovieCast movieId={movieId} />}
+      </div>
     </div>
   );
 }

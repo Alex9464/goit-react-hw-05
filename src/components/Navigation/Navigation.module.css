@@ -1,22 +1,25 @@
 .nav {
-    display: flex;
-    justify-content: space-around;
-    background-color: #242424;
-    padding: 10px 0;
-  }
+  background-color: #242424;
+  padding: 10px 0;
+}
+
+.navList {
+  display: flex;
+  justify-content: space-around;
+}
   
-  .link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-  }
+.link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
   
-  .link:hover {
-    color: #ff6347;
-  }
+.link:hover {
+  color: #ff6347;
+}
   
-  .activeLink {
-    font-weight: bold;
-    border-bottom: 2px solid #ff6347;
-  }
+.activeLink {
+  font-weight: bold;
+  border-bottom: 2px solid #ff6347;
+}
   

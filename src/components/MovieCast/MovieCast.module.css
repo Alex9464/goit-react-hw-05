@@ -1,0 +1,52 @@
+.cast {
+  position: relative;
+  max-width: 600px;
+}
+  
+.cast {
+  position: absolute;
+  top: 75px;
+  right: 5%;
+  width: 350px;
+  height: 750px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 15px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  border-radius: 10px 0 0 10px;
+}
+  
+.cast h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.actor {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.actorImg {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+  
+.actorInfo {
+  display: flex;
+  flex-direction: column;
+}
+  
+.actorName {
+  font-weight: bold;
+  font-size: 16px;
+}
+  
+.actorCharacter {
+  font-size: 14px;
+  color: #777;
+}
