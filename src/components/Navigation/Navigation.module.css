@@ -8,13 +8,13 @@
   justify-content: space-around;
 }
   
-.link {
+.link, .movieButton {
   color: #fff;
   text-decoration: none;
   font-size: 18px;
 }
   
-.link:hover {
+.link:hover, .movieButton:hover {
   color: #ff6347;
 }
   
@@ -22,4 +22,27 @@
   font-weight: bold;
   border-bottom: 2px solid #ff6347;
 }
-  
+
+
+
+
+
+
+
+/* Navigation.module.css */
+
+.movieLink {
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff; /* Цвет фона, аналогичный Home */
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.movieLink:hover {
+  background-color: #0056b3; /* Цвет при наведении */
+}

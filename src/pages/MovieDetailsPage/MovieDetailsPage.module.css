@@ -3,14 +3,14 @@
   align-items: flex-start;
   justify-content: center;
   gap: 25px;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
 .info {
   flex: 1;
-  width: 400px;
+  width: 600px;
 }
 
 .poster {
@@ -102,7 +102,13 @@
   color: #187bff;
 }
 
-.castBtn {
+.btnsWrap {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.castBtn, .reviewsBtn {
   background: #ff1867;
   color: white;
   padding: 10px 20px;
@@ -114,6 +120,23 @@
   transition: 0.3s;
 }
   
-.castBtn:hover {
+.castBtn:hover, .reviewsBtn:hover {
   background: #d11555;
+}
+
+.castWrap {
+  display: flex; /* Размещаем постер и каст в строку */
+  align-items: flex-start; /* Выравниваем по верхнему краю */
+  gap: 20px; /* Отступ между постером и кастом */
+}
+
+.movieCastContainer {
+  width: 300px; /* Фиксированная ширина для MovieCast */
+  min-height: 400px; /* Минимальная высота */
+  opacity: 0; /* По умолчанию скрываем */
+  transition: opacity 0.3s ease-in-out; /* Плавное появление */
+}
+
+.movieCastContainer.show {
+  opacity: 1; /* Показываем при клике */
 }

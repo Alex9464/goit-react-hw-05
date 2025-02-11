@@ -1,12 +1,4 @@
 .cast {
-  position: relative;
-  max-width: 600px;
-}
-  
-.cast {
-  position: absolute;
-  top: 75px;
-  right: 5%;
   width: 350px;
   height: 750px;
   background: rgba(0, 0, 0, 0.5);
@@ -16,7 +8,7 @@
   overflow-y: auto;
   border-radius: 10px 0 0 10px;
 }
-  
+
 .cast h2 {
   font-size: 24px;
   margin-bottom: 15px;

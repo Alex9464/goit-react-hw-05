@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import MovieCast from '../../components/MovieCast/MovieCast';
+import MovieReviews from '../../components/MovieReviews/MovieReviews';
 import styles from './MovieDetailsPage.module.css';
 
 function MovieDetailsPage() {
@@ -10,7 +11,8 @@ function MovieDetailsPage() {
   const [showCast, setShowCast] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [showReviews, setShowReviews] = useState(false);
+  
   useEffect(() => {
     setLoading(true);
     fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=fb7bb23f03b6994dafc674c074d01761`)
@@ -41,20 +43,39 @@ function MovieDetailsPage() {
         </button>
         <h1>{movie.title}</h1>
         <p>{movie.overview}</p>
-        <p className={styles.info}><span className={styles.rating}>Rating:</span> {movie.vote_average.toFixed(1)}</p>
-        <p className={styles.info}><span className={styles.release}>Release:</span> {movie.release_date}</p>
+        <p className={styles.info}>
+          <span className={styles.rating}>Rating:</span> {movie.vote_average.toFixed(1)}
+        </p>
+        <p className={styles.info}>
+          <span className={styles.release}>Release:</span> {movie.release_date}
+        </p>
+        
+        <div className={styles.btnsWrap}>
         <button 
           className={styles.castBtn} 
           onClick={() => setShowCast(prev => !prev)}
         >
           {showCast ? "Hide Cast" : "Show Cast"}
         </button>
+
+        <button 
+          className={styles.reviewsBtn} 
+          onClick={() => setShowReviews(prev => !prev)}
+        >
+          {showReviews ? "Hide Reviews" : "Show Reviews"}
+        </button>
+        </div>
+
+        {showReviews && <MovieReviews movieId={movieId} />}
       </div>
 
       <div className={styles.castWrap}>
-        <img className={styles.poster} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
-        {showCast && <MovieCast movieId={movieId} />}
-      </div>
+  <img className={styles.poster} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
+  
+  <div className={`${styles.movieCastContainer} ${showCast ? styles.show : ""}`}>
+    {showCast && <MovieCast movieId={movieId} />}
+  </div>
+</div>
     </div>
   );
 }
