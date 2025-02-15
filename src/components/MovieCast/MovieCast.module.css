@@ -1,44 +1,46 @@
-.cast {
-  width: 350px;
-  height: 750px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 15px;
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-  overflow-y: auto;
-  border-radius: 10px 0 0 10px;
+.castContainer {
+    max-width: 400px;
+    overflow-y: auto;
+    height: 500px;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    padding-left: 20px;
 }
 
-.cast h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
+.castList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.actor {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+.castItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 5px;
 }
 
-.actorImg {
-  width: 60px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 5px;
-  margin-right: 15px;
+.actorImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
 }
-  
+
 .actorInfo {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
-  
+
 .actorName {
-  font-weight: bold;
-  font-size: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
 }
-  
-.actorCharacter {
-  font-size: 14px;
-  color: #777;
+
+.actorRole {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
 }

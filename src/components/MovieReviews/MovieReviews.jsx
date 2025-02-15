@@ -1,38 +1,28 @@
-import { useState, useEffect } from "react";
-import styles from "./MovieReviews.module.css";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchMovieReviews } from '../../api/tmdb';
+import styles from './MovieReviews.module.css';
 
-function MovieReviews({ movieId }) {
+const MovieReviews = () => {
+  const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=fb7bb23f03b6994dafc674c074d01761`)
-      .then(response => {
-        if (!response.ok) throw new Error("Error loading reviews");
-        return response.json();
-      })
-      .then(data => {
-        setReviews(data.results);
-      })
-      .catch(err => setError(err.message));
+    fetchMovieReviews(movieId).then(setReviews).catch(console.error);
   }, [movieId]);
 
-  if (error) return <div className={styles.error}>Error: {error}</div>;
-  if (reviews.length === 0) return <div className={styles.noReviews}>No reviews available</div>;
+  if (!reviews.length) return <p>No reviews available.</p>;
 
   return (
-    <div className={styles.reviewsContainer}>
-      <h2>Reviews</h2>
-      <ul className={styles.reviewList}>
-        {reviews.slice(0, 5).map(review => (
-          <li key={review.id} className={styles.review}>
-            <h3>{review.author}</h3>
-            <p>{review.content}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className={styles.list}>
+      {reviews.map(review => (
+        <li key={review.id} className={styles.item}>
+          <h4>{review.author}</h4>
+          <p>{review.content}</p>
+        </li>
+      ))}
+    </ul>
   );
-}
+};
 
 export default MovieReviews;

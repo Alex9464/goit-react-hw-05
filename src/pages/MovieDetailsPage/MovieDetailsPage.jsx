@@ -1,83 +1,68 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import MovieCast from '../../components/MovieCast/MovieCast';
-import MovieReviews from '../../components/MovieReviews/MovieReviews';
+import { useEffect, useState, Suspense } from 'react';
+import { useParams, Link, Outlet, useLocation, useMatch } from 'react-router-dom';
+import { fetchMovieDetails } from '../../api/tmdb';
 import styles from './MovieDetailsPage.module.css';
 
-function MovieDetailsPage() {
+const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const navigate = useNavigate();
+  const location = useLocation();
+  const backLink = location.state?.from || '/movies';
   const [movie, setMovie] = useState(null);
-  const [showCast, setShowCast] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showReviews, setShowReviews] = useState(false);
-  
+  const isCastPage = useMatch('/movies/:movieId/cast');
+  const isReviewsPage = useMatch('/movies/:movieId/reviews');
+
   useEffect(() => {
-    setLoading(true);
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=fb7bb23f03b6994dafc674c074d01761`)
-      .then(response => {
-        if (!response.ok) throw new Error("Movie loading error");
-        return response.json();
-      })
-      .then(data => {
-        setMovie(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
+    fetchMovieDetails(movieId).then(setMovie).catch(console.error);
   }, [movieId]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!movie) return <div>Not found</div>;
+  if (!movie) return <p>Loading...</p>;
 
   return (
     <div className={styles.container}>
-      <div className={styles.info}>
-        <button className={styles.backBtn} onClick={() => navigate(-1)}>
-          <span>⬅ back</span>
-          <i className={styles.dec}></i>
-        </button>
-        <h1>{movie.title}</h1>
-        <p>{movie.overview}</p>
-        <p className={styles.info}>
-          <span className={styles.rating}>Rating:</span> {movie.vote_average.toFixed(1)}
-        </p>
-        <p className={styles.info}>
-          <span className={styles.release}>Release:</span> {movie.release_date}
-        </p>
-        
-        <div className={styles.btnsWrap}>
-        <button 
-          className={styles.castBtn} 
-          onClick={() => setShowCast(prev => !prev)}
-        >
-          {showCast ? "Hide Cast" : "Show Cast"}
-        </button>
+      {}
+      <Link to={backLink} className={styles.goBack}>← Go back</Link>
 
-        <button 
-          className={styles.reviewsBtn} 
-          onClick={() => setShowReviews(prev => !prev)}
-        >
-          {showReviews ? "Hide Reviews" : "Show Reviews"}
-        </button>
+      {}
+      <div className={styles.details}>
+        <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+        <div className={styles.info}>
+          <h2>{movie.title}</h2>
+          <p>User Score: {Math.round(movie.vote_average * 10)}%</p>
+          <h3>Overview</h3>
+          <p>{movie.overview}</p>
+          <h3>Genres</h3>
+          <p>{movie.genres.map(genre => genre.name).join(', ')}</p>
+
+          {}
+          <div className={styles.additionalInfo}>
+            <Link to="cast" state={{ from: backLink }} className={styles.link}>Cast</Link>
+            <Link to="reviews" state={{ from: backLink }} className={styles.link}>Reviews</Link>
+          </div>
         </div>
-
-        {showReviews && <MovieReviews movieId={movieId} />}
       </div>
 
-      <div className={styles.castWrap}>
-  <img className={styles.poster} src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
-  
-  <div className={`${styles.movieCastContainer} ${showCast ? styles.show : ""}`}>
-    {showCast && <MovieCast movieId={movieId} />}
-  </div>
-</div>
+      {}
+      <div className={styles.castReviewsContainer}>
+        {}
+        {isReviewsPage && (
+          <div className={styles.reviews}>
+            <Suspense fallback={<p>Loading...</p>}>
+              <Outlet />
+            </Suspense>
+          </div>
+        )}
+
+        {}
+        {isCastPage && (
+          <div className={styles.cast}>
+            <Suspense fallback={<p>Loading...</p>}>
+              <Outlet />
+            </Suspense>
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default MovieDetailsPage;

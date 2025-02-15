@@ -1,48 +1,32 @@
 .nav {
-  background-color: #242424;
-  padding: 10px 0;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .navList {
   display: flex;
   justify-content: space-around;
 }
-  
-.link, .movieButton {
-  color: #fff;
+
+.navList li {
+  font-size: 28px;
+}
+
+.nav a {
+  color: white;
   text-decoration: none;
-  font-size: 18px;
+  position: relative;
+  padding: 5px 0;
+  font-weight: normal;
+  transition: color 0.3s ease;
 }
-  
-.link:hover, .movieButton:hover {
-  color: #ff6347;
+
+.nav a:hover {
+  color: rgb(140, 73, 202);
 }
-  
-.activeLink {
+
+.nav .active {
   font-weight: bold;
-  border-bottom: 2px solid #ff6347;
-}
-
-
-
-
-
-
-
-/* Navigation.module.css */
-
-.movieLink {
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff; /* Цвет фона, аналогичный Home */
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s;
-}
-
-.movieLink:hover {
-  background-color: #0056b3; /* Цвет при наведении */
+  color: rgb(97, 25, 165);
 }

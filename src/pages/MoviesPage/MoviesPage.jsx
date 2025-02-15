@@ -1,50 +1,49 @@
-import { useState, useEffect } from 'react';
-import SearchBar from '../../components/SearchBar/SearchBar'; // Компонент поиска
+import { useState } from 'react';
+import { searchMovies } from '../../api/tmdb';
+import MovieList from '../../components/MovieList/MovieList';
+import toast from 'react-hot-toast';
+import styles from './MoviesPage.module.css';
 
-function MoviesPage() {
+const MoviesPage = () => {
+  const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]); // Состояние для фильтрации
+  const [loading, setLoading] = useState(false);
 
-  // Функция для поиска фильмов
-  const handleSearch = (query) => {
-    if (!query) return;
-    const filtered = movies.filter(movie =>
-      movie.title.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredMovies(filtered);
-  };
-
-  useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const response = await fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=YOUR_API_KEY');
-        if (!response.ok) {
-          throw new Error(`Error fetching data: ${response.status}`);
-        }
-        const data = await response.json();
-        setMovies(data.results);
-        setFilteredMovies(data.results); // Изначально показываем все фильмы
-      } catch (error) {
-        console.error('Ошибка загрузки фильмов:', error);
-      }
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    
+    if (!query.trim()) {
+      toast.error('Please enter a movie name to search!');
+      return;
     }
 
-    fetchMovies();
-  }, []);
+    setLoading(true);
+    try {
+      const searchResults = await searchMovies(query);
+      setMovies(searchResults);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error searching for movies:', error);
+      setLoading(false);
+    }
+  };
 
   return (
-    <div>
-      <h1>Movies</h1>
-      <SearchBar onSearch={handleSearch} /> {/* Передаем handleSearch как onSearch */}
-      <ul>
-        {filteredMovies.map(movie => (
-          <li key={movie.id}>
-            <p>{movie.title}</p> {/* Временно вместо MovieCard */}
-          </li>
-        ))}
-      </ul>
+    <div className={styles.searchWrap}>
+      <h1>Search Movies</h1>
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for movies..."
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      {loading ? <p>Loading...</p> : <MovieList movies={movies} />}
     </div>
   );
-}
+};
 
 export default MoviesPage;

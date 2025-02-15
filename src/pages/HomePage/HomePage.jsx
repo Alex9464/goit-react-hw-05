@@ -1,30 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchTrendingMovies } from '../../api/tmdb';
 import MovieList from '../../components/MovieList/MovieList';
+import styles from './HomePage.module.css';
 
-function HomePage() {
+const HomePage = () => {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchMovies() {
+    const getTrendingMovies = async () => {
       try {
-        const response = await fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=f4e6cb562855574dff73c7801d4cebbf');
-        const data = await response.json();
-        setMovies(data.results);
+        const trendingMovies = await fetchTrendingMovies();
+        setMovies(trendingMovies);
+        setLoading(false);
       } catch (error) {
-        console.error('Ошибка загрузки фильмов:', error);
+        console.error('Error loading popular movies:', error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchMovies();
+    getTrendingMovies();
   }, []);
 
   return (
-    <div>
-      <h1>Trending Movies</h1>
-      <MovieList movies={movies} />
+    <div className={styles.titleWrap}>
+      <h1 className={styles.mainTitle}>Popular Movies</h1>
+      {loading ? <p>Loading...</p> : <MovieList movies={movies} />}
     </div>
   );
-}
+};
 
 export default HomePage;
-
