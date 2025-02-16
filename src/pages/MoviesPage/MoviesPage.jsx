@@ -1,31 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../../api/tmdb';
 import MovieList from '../../components/MovieList/MovieList';
 import toast from 'react-hot-toast';
 import styles from './MoviesPage.module.css';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query') || '';
 
-  const handleSearch = async (e) => {
+  useEffect(() => {
+    if (!query) return;
+
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        const searchResults = await searchMovies(query);
+        setMovies(searchResults);
+      } catch (error) {
+        console.error('Error searching for movies:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [query]);
+
+  const handleSearch = (e) => {
     e.preventDefault();
-    
+
     if (!query.trim()) {
       toast.error('Please enter a movie name to search!');
       return;
     }
 
-    setLoading(true);
-    try {
-      const searchResults = await searchMovies(query);
-      setMovies(searchResults);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error searching for movies:', error);
-      setLoading(false);
-    }
+    setSearchParams({ query });
   };
 
   return (
@@ -35,7 +47,7 @@ const MoviesPage = () => {
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => setSearchParams({ query: e.target.value })}
           placeholder="Search for movies..."
         />
         <button type="submit">Search</button>
@@ -47,3 +59,5 @@ const MoviesPage = () => {
 };
 
 export default MoviesPage;
+
+
